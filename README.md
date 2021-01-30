@@ -1,6 +1,6 @@
 ## lesson 01
 - [easy level](https://github.com/Mullla/js-course/tree/lesson01/lesson01)
-Added variables
+Added variables.
 ***
 
 ## lesson 02
