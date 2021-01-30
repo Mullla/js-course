@@ -2,4 +2,4 @@
 
 ## lesson 02
 - [easy level](https://github.com/Mullla/js-course/tree/lesson02/lesson02)
-- hard level
+- [hard level](https://github.com/Mullla/js-course/tree/hard/lesson02)
