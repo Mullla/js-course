@@ -34,7 +34,7 @@ function getAccumulatedMonth(money, callback){
   return money - expenses;
 }
 
-let accumulatedMonth = getAccumulatedMonth(money, getExpensesMonth);
+const accumulatedMonth = getAccumulatedMonth(money, getExpensesMonth);
 
 // срок достижения цели
 function getTargetMonth(money, accumulatedMonth){
@@ -57,6 +57,7 @@ let getStatusIncome= function(){
     return "Что то пошло не так";
   }
 }
-console.log(getStatusIncome());
+console.log('Уровень доходов: ', getStatusIncome());
+console.log('Расходы за месяц: ', getExpensesMonth(amount1, amount2));
 
 console.log(`Цель будет достигнута за ${Math.ceil(getTargetMonth(money, accumulatedMonth))} месяцев(-а)`);
