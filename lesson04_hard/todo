@@ -1,0 +1,10 @@
+if (typeof data !== 'string'){
+    alert('Это не строка');
+  }
+
+  по умолчанию в promt все строка
+
+  if(string.length > 30){
+    //сначала обрезать строку, потом вывести ее значение
+    return string.length[30] + '...';
+  }
