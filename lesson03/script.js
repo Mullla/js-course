@@ -4,8 +4,8 @@ let money = +prompt("Ваш месячный доход?"),
     deposit = confirm("Есть ли у вас депозит в банке?"),
     period = 5,
     expenses1 = prompt("Введите обязательную статью расходов?"),
-    expenses2 = prompt("Введите обязательную статью расходов?"),
     amount1 = +prompt("Во сколько это обойдется?"),
+    expenses2 = prompt("Введите обязательную статью расходов?"),
     amount2 = +prompt("Во сколько это обойдется?");
 
 const mission = 5000;
