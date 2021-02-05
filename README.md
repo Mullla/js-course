@@ -36,6 +36,12 @@ Check, if number is prime.
 A game, where user shoul guess a number. 
 ***
 
+## lesson 07
+- [easy level](https://github.com/Mullla/js-course/tree/lesson07)
+Added all variables and almost all function to object properties.
+- [hard level](https://github.com/Mullla/js-course-hard/tree/lesson07)
+Show on screen today's day in bold font.
+***
 
 
 
