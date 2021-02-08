@@ -43,6 +43,9 @@ Added all variables and almost all function to object properties.
 Show on screen today's day in bold font.
 ***
 
+## lesson 08
+- [easy level](https://github.com/Mullla/js-course/tree/lesson08)
+Added checking for input types.
 
 
 
