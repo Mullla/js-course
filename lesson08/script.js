@@ -139,8 +139,7 @@ for (let prop in appData){
 }
 
 function capitalizeFirstLetter(string) {
-    return string.charAt(0).toUpperCase() + string.slice(1);
+    return string.trim().charAt(0).toUpperCase() + string.slice(1);
 }
 // возможные расходы
-// console.log(appData.addExpenses.map(item => `${item[0].toUpperCase()}${item.slice(1)}`).join(', '));
 console.log(appData.addExpenses.map(item => capitalizeFirstLetter(item)).join(', '));
