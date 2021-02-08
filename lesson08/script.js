@@ -54,6 +54,7 @@ let appData = {
         //возможные расходы
         let addExpenses = prompt("Перечислите возможные расходы за рассчитываемый период через запятую");
             appData.addExpenses = addExpenses.toLowerCase().split(',');
+            appData.addExpenses = appData.addExpenses.map(item => item.trim());
         // обязательные расходы
         for (let i = 0; i < 2; i++){
             let key = prompt("Введите обязательную статью расходов?");
@@ -139,7 +140,7 @@ for (let prop in appData){
 }
 
 function capitalizeFirstLetter(string) {
-    return string.trim().charAt(0).toUpperCase() + string.slice(1);
+    return string.charAt(0).toUpperCase() + string.slice(1);
 }
 // возможные расходы
 console.log(appData.addExpenses.map(item => capitalizeFirstLetter(item)).join(', '));
