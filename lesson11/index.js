@@ -24,11 +24,6 @@ let calculateBtn = document.getElementById('start'), // calculate button
 let isNumber = function (n) {
     return !isNaN(parseFloat(n)) && isFinite(n);
 }
-// сделать первую букву строки заглавной
-function capitalizeFirstLetter (string) {
-    return string.charAt(0).toUpperCase() + string.slice(1);
-}
-
 
 let appData = {
     budget: 0,
@@ -171,16 +166,10 @@ let appData = {
             }
         });
     },
+    capitalizeFirstLetter: function (string) {
+        return string.charAt(0).toUpperCase() + string.slice(1);
+    },
 };
-
-// calculateBtn.disabled = true;
-
-// salaryAmount.addEventListener('input', function () {
-//     if (isNumber(salaryAmount.value)) {
-//         calculateBtn.disabled = false;
-//         calculateBtn.addEventListener('click', appData.start);
-//     }
-// })
 
 calculateBtn.addEventListener('click', function () {  
     if (isNumber(salaryAmount.value)) {
