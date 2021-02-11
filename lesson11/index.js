@@ -173,15 +173,23 @@ let appData = {
     },
 };
 
-calculateBtn.disabled = true;
+// calculateBtn.disabled = true;
 
-salaryAmount.addEventListener('input', function () {
+// salaryAmount.addEventListener('input', function () {
+//     if (isNumber(salaryAmount.value)) {
+//         calculateBtn.disabled = false;
+//         calculateBtn.addEventListener('click', appData.start);
+//     }
+// })
+
+calculateBtn.addEventListener('click', function () {  
     if (isNumber(salaryAmount.value)) {
         calculateBtn.disabled = false;
-        calculateBtn.addEventListener('click', appData.start);
+        appData.start();
+    } else {
+        calculateBtn.disabled = true;
     }
-})
-
+});
 
 
 addExpensesBtn.addEventListener('click', appData.addExpensesBlock);
