@@ -69,4 +69,9 @@ Added functionality to money calculator.
 Added regExp functions.
 ***
 
+## lesson 12
+- [easy & hard level](https://github.com/Mullla/todo-list)
+Todo list with localStorage.
+***
+
 
