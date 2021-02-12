@@ -55,5 +55,18 @@ Added inputs from DOM.
 Show on screen today's day and time.
 ***
 
+## lesson 10
+- [easy level](https://github.com/Mullla/js-course/tree/lesson10)
+Working with books' chapters and background image from JS.
+- [hard level](https://codepen.io/mullla/pen/abBmMbv)
+Add from input to list. 
+***
+
+## lesson 11
+- [easy level](https://github.com/Mullla/js-course/tree/lesson11)
+Added functionality to money calculator. 
+- [hard level](https://github.com/Mullla/js-course-hard/tree/lesson11)
+Added regExp functions.
+***
 
 
