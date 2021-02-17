@@ -51,7 +51,7 @@ class AppData {
     }
     start() {
 
-        let dataInputs = document.querySelectorAll('.data input[type=text]'); // все текстовые инпуты с информацией
+        const dataInputs = document.querySelectorAll('.data input[type=text]'); // все текстовые инпуты с информацией
 
         dataInputs.forEach(item => {
             item.disabled = true;
@@ -76,7 +76,7 @@ class AppData {
         this.showResult();
     }
     reset() {
-        let dataInputs = document.querySelectorAll('.data input[type=text]'),
+        const dataInputs = document.querySelectorAll('.data input[type=text]'),
             resultInputs = document.querySelectorAll('.result input[type=text]'); // все инпуты с результатом вычислений
 
         dataInputs.forEach(item => {
@@ -153,7 +153,7 @@ class AppData {
         return this.budgetMonth * periodSelect.value;
     }
     addExpensesBlock() {
-        let cloneExpensesItem = expensesItems[0].cloneNode(true);
+        const cloneExpensesItem = expensesItems[0].cloneNode(true);
         expensesItems[0].parentNode.insertBefore(cloneExpensesItem, addExpensesBtn);
 
         expensesItems = document.querySelectorAll('.expenses-items');
@@ -161,8 +161,8 @@ class AppData {
         // добавление пустых полей
         for (let i = 1; i < expensesItems.length; i++) {
 
-            let expensesTitle = expensesItems[i].querySelector('.expenses-title');
-            let expensesAmount = expensesItems[i].querySelector('.expenses-amount');
+            const expensesTitle = expensesItems[i].querySelector('.expenses-title');
+            const expensesAmount = expensesItems[i].querySelector('.expenses-amount');
 
             expensesTitle.value = '';
             this.formatChar(expensesTitle);
@@ -175,15 +175,17 @@ class AppData {
         }
     }
     addIncomeBlock() {
-        let cloneIncomeItem = incomeItems[0].cloneNode(true);
+        const cloneIncomeItem = incomeItems[0].cloneNode(true);
         incomeItems[0].parentNode.insertBefore(cloneIncomeItem, addIncomeBtn);
 
         incomeItems = document.querySelectorAll('.income-items');
 
         // добавление пустых полей
         for (let i = 1; i < incomeItems.length; i++) {
-            let incomeTitle = incomeItems[i].querySelector('.income-title');
-            let incomeAmount = incomeItems[i].querySelector('.income-amount');
+            const incomeTitle = incomeItems[i].querySelector('.income-title');
+            const incomeAmount = incomeItems[i].querySelector('.income-amount');
+
+            console.log(incomeItems[2]);
 
             incomeTitle.value = '';
             this.formatChar(incomeTitle);
@@ -229,11 +231,12 @@ class AppData {
         additionalExpensesResult.value = this.addExpenses.join(', ');
         additionalIncomeResult.value = this.addIncome.join(', ');
         targetMonthResult.value = Math.ceil(this.getTargetMonth());
+        incomePeriodResult.value = this.calcSavedMoney();
 
     }
     getAddExpenses() {
         const _this = this;
-        let addExpenses = additionalExpenses.value.split(',');
+        const addExpenses = additionalExpenses.value.split(',');
         addExpenses.forEach(function (item) {
             item = item.trim();
             if (item !== '') {
@@ -244,7 +247,7 @@ class AppData {
     getAddIncome() {
         const _this = this;
         additionalIncomeFields.forEach(function (item) {
-            let itemValue = item.value.trim();
+            const itemValue = item.value.trim();
             if (itemValue !== '') {
                 _this.addIncome.push(itemValue);
             }
@@ -287,8 +290,8 @@ class AppData {
         });
 
         periodSelect.addEventListener('input', function () {
-            periodAmount.textContent = periodSelect.value;
             incomePeriodResult.value = _this.calcSavedMoney();
+            periodAmount.textContent = periodSelect.value;
         });
     }
 }
