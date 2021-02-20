@@ -78,7 +78,7 @@ Todo list with localStorage.
 - [easy level](https://github.com/Mullla/js-course/tree/lesson13)
 Added reset() and this. 
 - [hard level](https://github.com/Mullla/js-course-hard/tree/lesson11)
-Button chenge background with random color.
+Button change background with random color.
 ***
 
 ## lesson 14
