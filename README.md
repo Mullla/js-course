@@ -83,25 +83,25 @@ Button chenge background with random color.
 
 ## lesson 14
 - easy level
--- [class DomElement](https://github.com/Mullla/new-dom-element)
--- [OOP, rewrite app on classes](https://github.com/Mullla/js-course/tree/lesson14)
+* [class DomElement](https://github.com/Mullla/new-dom-element)
+* [OOP, rewrite app on classes](https://github.com/Mullla/js-course/tree/lesson14)
 - [hard level](https://github.com/Mullla/new-dom-element/tree/lesson14)
 Added square with DomElement class. 
 ***
 
 ## lesson 15
 - easy level
--- [rewrite on ES6 classes](https://github.com/Mullla/js-course/tree/lesson15)
--- [extending classes](https://codepen.io/mullla/pen/OJbmvqj)
+* [rewrite on ES6 classes](https://github.com/Mullla/js-course/tree/lesson15)
+* [extending classes](https://codepen.io/mullla/pen/OJbmvqj)
 - [hard level](https://github.com/Mullla/js-course-hard/tree/lesson15)
 Added regExp functions.
 ***
 
 ## lesson 16
 - easy level
--- [Added deposit](https://github.com/Mullla/js-course/tree/lesson16)
--- [destructure](https://codepen.io/mullla/pen/bGBRajx)
+* [Added deposit](https://github.com/Mullla/js-course/tree/lesson16)
+* [destructure](https://codepen.io/mullla/pen/bGBRajx)
 - hard level
--- [destructure](https://codepen.io/mullla/pen/oNYwVBm)
--- [cookies and localStorage](https://github.com/Mullla/js-course-hard/tree/lesson16)
+* [destructure](https://codepen.io/mullla/pen/oNYwVBm)
+* [cookies and localStorage](https://github.com/Mullla/js-course-hard/tree/lesson16)
 ***
