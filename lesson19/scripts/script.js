@@ -87,17 +87,17 @@ window.addEventListener('DOMContentLoaded', function () {
 
             //popup animation
             const animation = () =>{
-                let popupAnimation,
+                const popupAnimation,
                 progress = 0;
 
-                let popupAnimate = function() {
+                const popupAnimate = function() {
                     progress++;
                     popupAnimation = requestAnimationFrame(popupAnimate);
 
                     if (progress < 30){
                         popup.style.opacity = progress / 30; 
                     } else {
-                        cancelAnimationFrame(popupAnimate);
+                        cancelAnimationFrame(popupAnimation);
                     }
             };
 
