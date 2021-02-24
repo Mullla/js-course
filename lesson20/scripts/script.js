@@ -22,9 +22,9 @@ window.addEventListener('DOMContentLoaded', function () {
             function updateTimer() {  
                 let timer = getTimeRemaining();
 
-                timerHours.textContent = formatTime(hours);
-                timerMinutes.textContent = formatTime(minutes);
-                timerSeconds.textContent = formatTime(seconds);
+                timerHours.textContent = formatTime(timer.hours);
+                timerMinutes.textContent = formatTime(timer.minutes);
+                timerSeconds.textContent = formatTime(timer.seconds);
 
                 if (timer.timeRemaining > 0) {
                     setInterval(updateTimer, 1000);
