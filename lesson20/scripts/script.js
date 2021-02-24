@@ -22,9 +22,9 @@ window.addEventListener('DOMContentLoaded', function () {
             function updateTimer() {  
                 let timer = getTimeRemaining();
 
-                timerHours.textContent = timer.hours < 10 ? '0' + timer.hours : timer.hours;
-                timerMinutes.textContent = timer.minutes < 10 ? '0' + timer.minutes : timer.minutes;
-                timerSeconds.textContent = timer.seconds < 10 ? '0' + timer.seconds : timer.seconds;
+                timerHours.textContent = formatTime(hours);
+                timerMinutes.textContent = formatTime(minutes);
+                timerSeconds.textContent = formatTime(seconds);
 
                 if (timer.timeRemaining > 0) {
                     setInterval(updateTimer, 1000);
@@ -46,9 +46,8 @@ window.addEventListener('DOMContentLoaded', function () {
     // menu
     const toggleMenu = () => {
         const menuBtn = document.querySelector('.menu'), // кнопка меню
-            menu = document.querySelector('menu'), // тег с блоком меню
-            closeBtn = menu.querySelector('.close-btn'),
-            menuItems = menu.querySelectorAll('ul>li');
+            menu = document.querySelector('menu'); // тег с блоком меню
+
 
             // переключает активный класс у меню
             const handlerMenu = () => {
