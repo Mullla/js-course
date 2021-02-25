@@ -22,6 +22,10 @@ window.addEventListener('DOMContentLoaded', function () {
             function updateTimer() {  
                 let timer = getTimeRemaining();
 
+                const formatTime = (data) => {
+                    return (data < 10) ? '0' + data : data;
+                };
+
                 timerHours.textContent = formatTime(timer.hours);
                 timerMinutes.textContent = formatTime(timer.minutes);
                 timerSeconds.textContent = formatTime(timer.seconds);
@@ -46,13 +50,29 @@ window.addEventListener('DOMContentLoaded', function () {
     // menu
     const toggleMenu = () => {
         const menuBtn = document.querySelector('.menu'), // кнопка меню
-            menu = document.querySelector('menu'); // тег с блоком меню
-
+            menu = document.querySelector('menu'), // тег с блоком меню
+            firstSectionBtn = document.querySelector('a>img');
 
             // переключает активный класс у меню
             const handlerMenu = () => {
                 menu.classList.toggle('active-menu');
             };
+
+            // smooth scroll
+            const smoothScroll = (target) => {
+                if (target.closest('li>a') || target.closest('a>img')) {
+                    event.preventDefault(); // отменяю обычный переход по ссылке, чтобы добавить плавный
+
+                    target = target.closest('a'); 
+
+                    let id = target.getAttribute('href').substr(1); //выделяю часть ссылки href = #<...>, чтобы подставить значение <...> и найти элемент по id
+
+                    document.getElementById(id).scrollIntoView({ //скроллю к элементу с заданным id
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            }
 
             menuBtn.addEventListener('click', handlerMenu);
 
@@ -62,7 +82,16 @@ window.addEventListener('DOMContentLoaded', function () {
                 if (target.classList.contains('close-btn') || target.closest('a')){
                     handlerMenu();
                 }
+
+                smoothScroll(target);
             });
+
+            firstSectionBtn.addEventListener('click', (event) => {
+                let target = event.target;
+
+                smoothScroll(target);
+            });
+
     };
 
     toggleMenu();
