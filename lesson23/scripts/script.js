@@ -350,7 +350,7 @@ window.addEventListener('DOMContentLoaded', function () {
             regPhone = /([^\d\)\(\-]+|^\-*|\-*$)/g;
 
         const capitalizeFirstLetter = (string) => {
-            return string.split(/\s+/).map(word => word[0].toUpperCase() + word.substring(1)).join(' ');
+            return string.split(/\s+/).map(word => word[0].replace(/(^\-*)/g,'').toUpperCase() + word.substring(1)).join(' ');
             
         };
 
@@ -363,7 +363,7 @@ window.addEventListener('DOMContentLoaded', function () {
             
             // имя
             } else if (target.matches('input[name="user_name"]')){
-                let str = target.value.replace(regText, '').trim().toLowerCase();
+                let str = target.value.replace(regText, '').trim().toLowerCase().replace(/\-{2,}/g, '-');
 
                 target.value = capitalizeFirstLetter(str);
 
@@ -373,11 +373,11 @@ window.addEventListener('DOMContentLoaded', function () {
 
             // email
             } else if (target.matches('input[type="email"]')){
-                target.value = target.value.replace(regEmail, '').replace(/\-{2,}/, '-');
+                target.value = target.value.replace(regEmail, '').replace(/\-{2,}/g, '-');
 
             // телефон
             } else if (target.matches('input[type="tel"]')){
-                target.value = target.value.replace(regPhone, '').replace(/\-{2,}/, '-');
+                target.value = target.value.replace(regPhone, '').replace(/\-{2,}/g, '-');
             }
             
         }));
