@@ -391,103 +391,125 @@ window.addEventListener('DOMContentLoaded', function () {
 
     calc();
 
-    // const checkInputs = (elem) => {
-    //     // делает первую строку заглавной
-    //     const capitalizeFirstLetter = (string) => {
-    //         return string.charAt(0).toUpperCase() + string.slice(1);
-    //     };
+    //send ajax
+    const sendForm = () => {
+        const errorMessage = 'Что-то пошло не так...',
+            loadMessage = 'Загрузка...',
+            successMessage = 'Спасибо! Мы скоро с Вами свяжемся';
 
-    //     elem.addEventListener('blur', () => {
-    //         elem.value = elem.value.trim().replace(/\-{2,}/i,'-'); //несколько идущих подряд дефисов заменяются на один
-    //         elem.value = elem.value.trim().replace(/\s{2,}/i,'\s'); //несколько подряд пробелов заменяются на один
-    //         elem.value = elem.value.trim().replace(/[\[\]]+/i,'');
-    //         elem.value = elem.value.replace(/(^\-|\-$)/i,''); // дефис в начале или в конце удаляется
-    //         if (elem.getAttribute('name') === 'user_name'){
-    //             elem.value = capitalizeFirstLetter(elem.value);
-    //         }
-    //     });
+        // все формы со страницы
+        const forms = document.querySelectorAll('form');
 
+        const statusMessage = document.createElement('div');
+        statusMessage.style.cssText = 'font-size: 2rem;';
 
-
+        // валидация
+        const validate = (input) => {
+            const regPhone = /[^\+\d+]/g,
+                regName = /[^а-яё\s]+/gi,
+                regMessage = /[^а-яё\s\.,:;\-\!\?\d]+/gi;
         
-    // };
+                input.addEventListener('input', () => {
+                    if(input.type === 'tel'){
+                        input.value = input.value.replace(regPhone, ''); 
+        
+                    } else if(input.name === 'user_name'){
+                        input.value = input.value.replace(regName, '');
+        
+                    } else if(input.name === 'user_message'){
+                        input.value = input.value.replace(regMessage, '');
+                    }
+                });
+        }
 
-    // // только цифры в калькуляторе
-    // const checkNums = () => {
-    //     const calcInputs = document.querySelectorAll('input[type="text"].calc-item');
+        // создание и перебор элементов формы
+        const createFormElements = (form) => {
+            // массив с инпутами из формы
+            const formElements = [];
+            // добавление инпута в массив с элементами формы
+            for (const elem of form.elements) {
+                if (elem.tagName.toLowerCase() !== 'button' && elem.type !== 'button') {
+                    formElements.push(elem);
+                }
+            }
+        
+            formElements.forEach( (elem) => validate(elem));
+        
+        };
 
-    //     const formatNum = (elem) => {
-    //         elem.addEventListener('input', () => {
-    //             //все, что не соответствует цифре, заменяю пустым символом
-    //             elem.value = elem.value.replace(/[^0-9]+/i,''); 
-    //         });
-    //     };
+        // для каждой формы отправка данных
+        forms.forEach( (form) => {
+            
+            createFormElements(form);
 
-    //     calcInputs.forEach(elem => formatNum(elem));
-    // };
+            form.addEventListener('submit', (e) => {
+                e.preventDefault();
+                form.append(statusMessage);
+                statusMessage.textContent = loadMessage;
 
-    // checkNums();
+                // присваивает body результат работы функции createBody для формы
+                let body = createBody(form);
 
-    // // в полях ввода имени и сообщения только кириллица, дефис и пробел
-    // const checkTexts = () => {
-    //     const nameInputs = document.querySelectorAll('input[name="user_name"]'),
-    //         messageInput = document.querySelector('input[name="user_message"]');
+                //принимает объект body, две функции, которые оповещают пользователя об успешной отправке или об ошибке
+                postData(body, () => {
+                    statusMessage.textContent = successMessage;
+                }, 
+                (error) => {
+                    statusMessage.textContent = errorMessage;
+                    console.error(error);
+                });
+    
+                // очищает значения формы
+                e.target.reset();
+            });
+        });
 
-    //         const formatStr = (elem) => {
-    //             elem.addEventListener('input', () => {
-    //                 //все, что не соответствует кириллице в любом регистре, пробелу и дефису
-    //                 elem.value = elem.value.replace(/[^А-яЁё\s\-]+/i,''); 
-    //             });
-    //         };
 
-    //         nameInputs.forEach(elem => {
-    //             formatStr(elem);
-    //             checkInputs(elem);
-    //         });
-    //         formatStr(messageInput);
-    //         checkInputs(messageInput);
-    // };
+        // функция работает только с запросом, принимает body и функции-оповещения пользователя
+        const postData = (body, notifySuccess, notifyError) => {
+            //создали объект request
+            const request = new XMLHttpRequest();
 
-    // checkTexts();
+            // сразу прослушка события, чтобы отловить все состояния от 1 до 4
+            request.addEventListener('readystatechange', () => {
+                if (request.readyState !== 4) {
+                    return; // ждем, когда станет 4
+                }
+                if (request.status === 200) {
+                    notifySuccess();
+                } else {
+                    notifyError(request.status);
+                }
+            });
 
-    // //проверка email
-    // const checkEmails = () => {
-    //     const emailInputs = document.querySelectorAll('input[type="email"]');
+            // настройка соединения
+            request.open('POST', './server.php');
+            // настройка заголовков
+            request.setRequestHeader('Content-Type', 'application/json');
+            // открываем соединение и отправляем данные
+            request.send(JSON.stringify(body));
+        };
 
-    //     const formatEmail = (elem) => {
-    //         elem.addEventListener('input', () => {
-    //             //можно только ввод латиницы и спецсимволы
-    //             elem.value = elem.value.replace(/[^A-z\@\*\-\_\.\!\~\']+/i,'');  
-    //         });
-    //     };
+        // создает объект body из формы
+        const createBody = (form) => {
+            // объект содержит все данные формы
+            //если у inputa не будет name, то formData не заполнится
+            const formData = new FormData(form); 
+            // когда сервер не понимает формат formData, отправляются другие данные
+            let body = {};
+    
+            // перебираем значения formData и записывем их в объект body в формате ключ:значение
+            formData.forEach( (val, key) => {
+                body[key] = val;
+            });
 
-    //     emailInputs.forEach(elem => {
-    //         formatEmail(elem);
-    //         checkInputs(elem);
-    //     });
-    // };
+            return body;
+        }
 
-    // checkEmails();
+    };
 
-    // // проверка телефона
-    // const checkPhone = () => {
-    //     const phoneInputs = document.querySelectorAll('input[name="user_phone"]');
+    sendForm();
 
-    //     const formatPhone = (elem) => {
-    //         elem.addEventListener('input', () => {
-    //             //все, что не соответствует цифре, заменяю пустым символом
-    //             // elem.value = elem.value.replace(/[^0-9()\-]+/i,''); 
-    //             elem.value = elem.value.replace(/[^\d()\-]+/i,''); 
-    //         });
-    //     };
-
-    //     phoneInputs.forEach(elem => {
-    //         formatPhone(elem);
-    //         checkInputs(elem);
-    //     });
-    // };
-
-    // checkPhone();
 
 });
 
