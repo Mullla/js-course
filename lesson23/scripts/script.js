@@ -311,7 +311,7 @@ window.addEventListener('DOMContentLoaded', function () {
 
     slider();
 
-    // change dataset-img
+    // изменение фото при наведении мышки
     const changeImgs = () => {
         const commandSection = document.getElementById('command');
 
@@ -339,104 +339,135 @@ window.addEventListener('DOMContentLoaded', function () {
 
     changeImgs();
 
-    const checkInputs = (elem) => {
-        // делает первую строку заглавной
+    // проверка на корректность введенных значений при blur
+    const checkOnBlur = () => {
+        const inputs = document.querySelectorAll('input');
+
+        // регулярки для каждого типа данных
+        const regCalc = /[^\d]+/ig,
+            regText = /[^а-яё\s\-]+/ig,
+            regEmail = /[^a-z\-\_\.\!\~\*\'@]+/ig,
+            regPhone = /[^\d\-\)\(]/g;
+
         const capitalizeFirstLetter = (string) => {
-            return string.charAt(0).toUpperCase() + string.slice(1);
+            return string.split(/\s+/).map(word => word[0].toUpperCase() + word.substring(1)).join(' ');
         };
 
-        elem.addEventListener('blur', () => {
-            elem.value = elem.value.trim().replace(/\-{2,}/i,'-'); //несколько идущих подряд дефисов заменяются на один
-            elem.value = elem.value.trim().replace(/\s{2,}/i,'\s'); //несколько подряд пробелов заменяются на один
-            elem.value = elem.value.trim().replace(/[\[\]]+/i,'');
-            elem.value = elem.value.replace(/(^\-|\-$)/i,''); // дефис в начале или в конце удаляется
-            if (elem.getAttribute('name') === 'user_name'){
-                elem.value = capitalizeFirstLetter(elem.value);
+        inputs.forEach(item => item.addEventListener('blur', (e) => {
+            let target = e.target;
+
+            // калькулятор
+            if(target.matches('input[type="text"].calc-item')){
+                target.value = target.value.replace(regCalc, '');
+            
+            // имя
+            } else if (target.matches('input[name="user_name"]')){
+                let str = target.value.replace(regText, '').trim().toLowerCase();
+
+                target.value = capitalizeFirstLetter(str);
+
+            // сообщение
+            } else if (target.matches('input[name="user_message"]')){
+                target.value = target.value.replace(regText, '').trim();
+
+            // email
+            } else if (target.matches('input[type="email"]')){
+                target.value = target.value.replace(regEmail, '');
+
+            // телефон
+            } else if (target.matches('input[type="tel"]')){
+                target.value = target.value.replace(regPhone, '');
             }
-        });
+            
+        }));
+        
+
+    };
+    checkOnBlur();
+
+    // const checkInputs = (elem) => {
+    //     // делает первую строку заглавной
+    //     const capitalizeFirstLetter = (string) => {
+    //         return string.charAt(0).toUpperCase() + string.slice(1);
+    //     };
+
+    //     elem.addEventListener('blur', () => {
+    //         elem.value = elem.value.trim().replace(/\-{2,}/i,'-'); //несколько идущих подряд дефисов заменяются на один
+    //         elem.value = elem.value.trim().replace(/\s{2,}/i,'\s'); //несколько подряд пробелов заменяются на один
+    //         elem.value = elem.value.trim().replace(/[\[\]]+/i,'');
+    //         elem.value = elem.value.replace(/(^\-|\-$)/i,''); // дефис в начале или в конце удаляется
+    //         if (elem.getAttribute('name') === 'user_name'){
+    //             elem.value = capitalizeFirstLetter(elem.value);
+    //         }
+    //     });
 
 
 
         
-    };
+    // };
 
-    // только цифры в калькуляторе
-    const checkNums = () => {
-        const calcInputs = document.querySelectorAll('input[type="text"].calc-item');
+        // в калькуляторе ввод только цифр
+        // const checkNumsCalc = () => {
+        //     const calcInputs = document.querySelectorAll('input[type="text"].calc-item');
+    
+        //     const formatNum = (elem) => {
+        //         elem.addEventListener('input', () => {
+        //             let regex = /[^\d]+/i;
+        //             //все, что не соответствует цифре, заменяю пустым символом
+        //             elem.value = elem.value.replace(regex,''); 
+        //         });
+        //     };
+    
+        //     calcInputs.forEach(elem => formatNum(elem));
+        // };
+    
+        // checkNumsCalc();
 
-        const formatNum = (elem) => {
-            elem.addEventListener('input', () => {
-                //все, что не соответствует цифре, заменяю пустым символом
-                elem.value = elem.value.replace(/[^0-9]+/i,''); 
-            });
-        };
+        // в полях ввода только кириллица, дефис и пробел
+    // const checkNames = () => {
+    //     const nameInputs = document.querySelectorAll('input[name="user_name"]'),
+    //         messageInput = document.querySelector('input[name="user_message"]');
 
-        calcInputs.forEach(elem => formatNum(elem));
-    };
+    //     const formatCyrillic = (input) => {
+    //         input.addEventListener('input', () =>{
+    //             input.value = input.value.replace(/[^а-яё\s\-]+/i, '');
+    //         });
+    //     }
 
-    checkNums();
+    //     nameInputs.forEach(input => formatCyrillic(input));
+    //     formatCyrillic(messageInput);
+        
+    // };
+    // checkNames();
 
-    // в полях ввода имени и сообщения только кириллица, дефис и пробел
-    const checkTexts = () => {
-        const nameInputs = document.querySelectorAll('input[name="user_name"]'),
-            messageInput = document.querySelector('input[name="user_message"]');
+        // в полях email только латиница в любом регистре и спецсимволы: @, -, _, ., !, ~, *, '
+        // const checkEmails = () => {
+        //     const emailInputs = document.querySelectorAll('input[type="email"]');
+    
+        //     const formatEmail = (input) => {
+        //         input.addEventListener('input', () => {
+        //             input.value = input.value.replace(/[^a-z\-\_\.\!\~\*\'@]+/ig, '');
+        //         });
+        //     }
+            
+        //     emailInputs.forEach(email => formatEmail(email));
+    
+        // };
+        // checkEmails();
 
-            const formatStr = (elem) => {
-                elem.addEventListener('input', () => {
-                    //все, что не соответствует кириллице в любом регистре, пробелу и дефису
-                    elem.value = elem.value.replace(/[^А-яЁё\s\-]+/i,''); 
-                });
-            };
-
-            nameInputs.forEach(elem => {
-                formatStr(elem);
-                checkInputs(elem);
-            });
-            formatStr(messageInput);
-            checkInputs(messageInput);
-    };
-
-    checkTexts();
-
-    //проверка email
-    const checkEmails = () => {
-        const emailInputs = document.querySelectorAll('input[type="email"]');
-
-        const formatEmail = (elem) => {
-            elem.addEventListener('input', () => {
-                //можно только ввод латиницы и спецсимволы
-                elem.value = elem.value.replace(/[^A-z\@\*\-\_\.\!\~\']+/i,'');  
-            });
-        };
-
-        emailInputs.forEach(elem => {
-            formatEmail(elem);
-            checkInputs(elem);
-        });
-    };
-
-    checkEmails();
-
-    // проверка телефона
-    const checkPhone = () => {
-        const phoneInputs = document.querySelectorAll('input[name="user_phone"]');
-
-        const formatPhone = (elem) => {
-            elem.addEventListener('input', () => {
-                //все, что не соответствует цифре, заменяю пустым символом
-                // elem.value = elem.value.replace(/[^0-9()\-]+/i,''); 
-                elem.value = elem.value.replace(/[^\d()\-]+/i,''); 
-            });
-        };
-
-        phoneInputs.forEach(elem => {
-            formatPhone(elem);
-            checkInputs(elem);
-        });
-    };
-
-    checkPhone();
-
+        // в поле телефона только цифры, круглые скобки, дефис
+        // const checkPhones = () => {
+        //     const phoneInputs = document.querySelectorAll('input[type="tel"]');
+    
+        //     const formatPhone = (input) => {
+        //         input.addEventListener('input', () => {
+        //             input.value = input.value.replace(/[^\d\-\)\(]/, '');
+        //         });
+        //     };
+            
+        //     phoneInputs.forEach(input => formatPhone(input));
+        // };
+        // checkPhones();
 
 });
 
