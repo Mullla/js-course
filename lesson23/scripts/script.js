@@ -343,19 +343,93 @@ window.addEventListener('DOMContentLoaded', function () {
         const textInputs = document.querySelectorAll('input[name="user_name"]'),
             messageInput = document.querySelector('input[name="user_name"]');
 
+        const capitalizeFirstLetter = (string) => {
+            return string.split(/\s+/).map(word => word.replace(/(^\-|\-$)/g,'')[0].toUpperCase() + word.substring(1)).join(' ');
+        };
+
         textInputs.forEach( input => input.addEventListener('input', (e) => {
             let target = e.target;
 
-            target.value = target.value.replace(/[^а-яё\s\-]/ig, '')
+            target.value = target.value.replace(/[^а-яё\s\-]/ig, '');
+
+            target.addEventListener('blur', () => {
+                const regText = /([^а-яё\s\-]+|^\-*|\-*$)/ig;
+                let str = target.value.replace(regText, '');
+
+                str = str.trim().toLowerCase();
+                str = str.replace(/\-+/g, '-');
+                str = str.replace(/\s+/g, ' ');
+
+                target.value = str ? capitalizeFirstLetter(str) : str;
+            });
         }));
 
         messageInput.addEventListener('input', (e) => {
             let target = e.target;
 
-            target.value = target.value.replace(/[^а-яё\s\-]/ig, '')
+            target.value = target.value.replace(/[^а-яё\s\-]/ig, '');
+
+            target.addEventListener('blur', () => {
+                const regText = /([^а-яё\s\-]+|^\-*|\-*$)/ig;
+                let str = target.value.replace(regText, '');
+
+                str = str.trim().toLowerCase();
+                str = str.replace(/\-+/g, '-');
+                str = str.replace(/\s+/g, ' ');
+
+                target.value = str;
+            });
         });
     }
     checkText();
+
+    //проверка email
+    const checkEmails = () => {
+        const emailInputs = document.querySelectorAll('input[type="email"]');
+
+        const formatEmail = (elem) => {
+            elem.addEventListener('input', () => {
+                //можно только ввод латиницы и спецсимволы
+                elem.value = elem.value.replace(/[^A-z\@\*\-\_\.\!\~\']+/i,'');  
+
+                target.addEventListener('blur', () => {
+                    const regEmail = /([^a-z\-\_\.\!\~\*\'@]+|^\-*|\-*$)/ig;
+                    target.value = target.value.replace(regEmail, '').replace(/\-{2,}/g, '-');
+                });
+            });
+        };
+
+        emailInputs.forEach(elem => {
+            formatEmail(elem);
+        });
+    };
+
+    checkEmails();
+
+    // проверка телефона
+    const checkPhone = () => {
+        const phoneInputs = document.querySelectorAll('input[name="user_phone"]');
+
+        const formatPhone = (elem) => {
+            elem.addEventListener('input', () => {
+                //все, что не соответствует цифре, заменяю пустым символом
+                // elem.value = elem.value.replace(/[^0-9()\-]+/i,''); 
+                elem.value = elem.value.replace(/[^\d()\-]+/i,''); 
+
+                target.addEventListener('blur', () => {
+                    const regPhone = /([^\d\)\(\-]+|^\-*|\-*$)/g;
+                    target.value = target.value.replace(regPhone, '').replace(/\-{2,}/g, '-');
+                });
+            });
+        };
+
+        phoneInputs.forEach(elem => {
+            formatPhone(elem);
+        });
+    };
+
+    checkPhone();
+
 
     // проверка на корректность введенных значений при blur
     const checkOnBlur = () => {
@@ -404,7 +478,7 @@ window.addEventListener('DOMContentLoaded', function () {
         
 
     };
-    checkOnBlur();
+    // checkOnBlur();
 
 });
 
