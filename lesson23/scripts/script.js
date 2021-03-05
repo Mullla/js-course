@@ -364,11 +364,16 @@ window.addEventListener('DOMContentLoaded', function () {
     // текстовые инпуты
     const checkText = () => {
         const textInputs = document.querySelectorAll('input[name="user_name"]'),
-            messageInput = document.querySelector('input[name="user_message"]');
+            messageInput = document.querySelector('input[name="user_message"]'); 
+
+        const deleteOnlySymbols = (string) => {
+            string = string.replace(/(\-{2,}|\s{2,})/g, '');
+            string = string.replace(/(\s\B\-\B\s|\s\B\-\B)/g, '');
+            return string;
+        };
 
         const capitalizeFirstLetter = (string) => {
-            console.log(string)
-            return string.split(/\s+/).map(word => word.replace(/(^\-|\-$)/g,'')[0].toUpperCase() + word.substring(1)).join(' ');
+            return string.split(/\s+/).map(word => deleteOnlySymbols(word[0]).replace(/(^\-|\-$)/g,'').toUpperCase() + word.substring(1)).join(' ');
         };
 
         textInputs.forEach( input => input.addEventListener('input', (e) => {
@@ -377,7 +382,7 @@ window.addEventListener('DOMContentLoaded', function () {
             target.value = target.value.replace(/[^а-яё\s\-]/ig, '');
 
             target.addEventListener('blur', () => {
-                const regText = /([^а-яё\s\-]+|^\-*|\-*$)/ig;
+                const regText = /([^а-яё\s\-]+)/ig;
                 let str = target.value.replace(regText, '');
 
                 str = str.trim().toLowerCase();
