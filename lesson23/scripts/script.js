@@ -339,6 +339,24 @@ window.addEventListener('DOMContentLoaded', function () {
 
     changeImgs();
 
+    const checkText = () => {
+        const textInputs = document.querySelectorAll('input[name="user_name"]'),
+            messageInput = document.querySelector('input[name="user_name"]');
+
+        textInputs.forEach( input => input.addEventListener('input', (e) => {
+            let target = e.target;
+
+            target.value = target.value.replace(/[^а-яё\s\-]/ig, '')
+        }));
+
+        messageInput.addEventListener('input', (e) => {
+            let target = e.target;
+
+            target.value = target.value.replace(/[^а-яё\s\-]/ig, '')
+        });
+    }
+    checkText();
+
     // проверка на корректность введенных значений при blur
     const checkOnBlur = () => {
         const inputs = document.querySelectorAll('input');
@@ -367,7 +385,7 @@ window.addEventListener('DOMContentLoaded', function () {
                 str = str.replace(/\-+/g, '-');
                 str = str.replace(/\s+/g, ' ');
 
-                target.value = capitalizeFirstLetter(str);
+                target.value = str ? capitalizeFirstLetter(str) : str;
 
             // сообщение
             } else if (target.matches('input[name="user_message"]')){
