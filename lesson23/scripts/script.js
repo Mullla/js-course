@@ -362,7 +362,10 @@ window.addEventListener('DOMContentLoaded', function () {
             
             // имя
             } else if (target.matches('input[name="user_name"]')){
-                let str = target.value.replace(regText, '').trim().toLowerCase().replace(/\-+/g, '-').replace(/\s+/g, ' ');
+                let str = target.value.replace(regText, '');
+                str = str.trim().toLowerCase();
+                str = str.replace(/\-+/g, '-');
+                str = str.replace(/\s+/g, ' ');
 
                 target.value = capitalizeFirstLetter(str);
 
