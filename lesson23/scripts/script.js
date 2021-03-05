@@ -339,11 +339,35 @@ window.addEventListener('DOMContentLoaded', function () {
 
     changeImgs();
 
+    // только цифры в калькуляторе
+    const checkNums = () => {
+        const calcInputs = document.querySelectorAll('input[type="text"].calc-item');
+
+        const formatNum = (elem) => {
+            elem.addEventListener('input', (e) => {
+                let target = e.target;
+                //все, что не соответствует цифре, заменяю пустым символом
+                target.value = target.value.replace(/[^0-9]+/i,''); 
+
+                target.addEventListener('blur', () => {
+                    const regCalc = /[^\d]+/g;
+                    target.value = target.value.replace(regCalc, '');
+                });
+            });
+        };
+
+        calcInputs.forEach(elem => formatNum(elem));
+    };
+
+    checkNums();
+
+    // текстовые инпуты
     const checkText = () => {
         const textInputs = document.querySelectorAll('input[name="user_name"]'),
-            messageInput = document.querySelector('input[name="user_name"]');
+            messageInput = document.querySelector('input[name="user_message"]');
 
         const capitalizeFirstLetter = (string) => {
+            console.log(string)
             return string.split(/\s+/).map(word => word.replace(/(^\-|\-$)/g,'')[0].toUpperCase() + word.substring(1)).join(' ');
         };
 
@@ -388,9 +412,10 @@ window.addEventListener('DOMContentLoaded', function () {
         const emailInputs = document.querySelectorAll('input[type="email"]');
 
         const formatEmail = (elem) => {
-            elem.addEventListener('input', () => {
+            elem.addEventListener('input', (e) => {
+                let target = e.target;
                 //можно только ввод латиницы и спецсимволы
-                elem.value = elem.value.replace(/[^A-z\@\*\-\_\.\!\~\']+/i,'');  
+                target.value = target.value.replace(/[^A-z\@\*\-\_\.\!\~\']+/i,'');  
 
                 target.addEventListener('blur', () => {
                     const regEmail = /([^a-z\-\_\.\!\~\*\'@]+|^\-*|\-*$)/ig;
@@ -411,10 +436,11 @@ window.addEventListener('DOMContentLoaded', function () {
         const phoneInputs = document.querySelectorAll('input[name="user_phone"]');
 
         const formatPhone = (elem) => {
-            elem.addEventListener('input', () => {
+            elem.addEventListener('input', (e) => {
+                let target = e.target;
                 //все, что не соответствует цифре, заменяю пустым символом
                 // elem.value = elem.value.replace(/[^0-9()\-]+/i,''); 
-                elem.value = elem.value.replace(/[^\d()\-]+/i,''); 
+                target.value = target.value.replace(/[^\d()\-]+/i,''); 
 
                 target.addEventListener('blur', () => {
                     const regPhone = /([^\d\)\(\-]+|^\-*|\-*$)/g;
@@ -432,6 +458,8 @@ window.addEventListener('DOMContentLoaded', function () {
 
 
     // проверка на корректность введенных значений при blur
+
+    /* 
     const checkOnBlur = () => {
         const inputs = document.querySelectorAll('input');
 
@@ -478,7 +506,8 @@ window.addEventListener('DOMContentLoaded', function () {
         
 
     };
-    // checkOnBlur();
-
+    checkOnBlur();
+     */
+    
 });
 
