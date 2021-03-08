@@ -129,19 +129,19 @@ Throttle and debounce.
 - [easy level](https://github.com/Mullla/js-course/tree/lesson19)
 **3D Glo**: Modal, menu, animation. 
 - [hard level](https://github.com/Mullla/js-course-hard/tree/lesson19)
-Smooth scroll.
+**3D Glo**: Smooth scroll.
 ***
 
 ## lesson 20
 - [easy level](https://github.com/Mullla/js-course/tree/lesson20)
 **3D Glo**: Tabs, events delegation. 
 - [hard level](https://github.com/Mullla/js-course-hard/tree/lesson20)
-Toggle menu with only 1 delegation.
+**3D Glo**: Toggle menu with only 1 delegation.
 ***
 
 ## lesson 21
 - [easy level](https://github.com/Mullla/js-course/tree/lesson21)
-Slider.
+**3D Glo**: Slider.
 ***
 
 ## lesson 22
