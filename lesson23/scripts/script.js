@@ -366,32 +366,65 @@ window.addEventListener('DOMContentLoaded', function () {
         const textInputs = document.querySelectorAll('input[name="user_name"]'),
             messageInput = document.querySelector('input[name="user_message"]'); 
 
-        const deleteOnlySymbols = (string) => {
-            string = string.replace(/(\-{2,}|\s{2,})/g, '');
-            string = string.replace(/(\s\B\-\B\s|\s\B\-\B)/g, '');
-            return string;
-        };
-
-        const capitalizeFirstLetter = (string) => {
-            return string.split(/\s+/).map(word => deleteOnlySymbols(word[0]).replace(/(^\-|\-$)/g,'').toUpperCase() + word.substring(1)).join(' ');
-        };
-
-        textInputs.forEach( input => input.addEventListener('input', (e) => {
-            let target = e.target;
-
-            target.value = target.value.replace(/[^а-яё\s\-]/ig, '');
-
-            target.addEventListener('blur', () => {
-                const regText = /([^а-яё\s\-]+)/ig;
-                let str = target.value.replace(regText, '');
-
-                str = str.trim().toLowerCase();
-                str = str.replace(/\-+/g, '-');
-                str = str.replace(/\s+/g, ' ');
-
-                target.value = str ? capitalizeFirstLetter(str) : str;
+            textInputs.forEach( textInput => {
+                textInput.addEventListener('input', (e) => {
+                    let target = e.target;
+            
+                    // все символы, которые нельзя вводить, заменяются пустой строкой
+                    let str = target.value.replace(/[^а-яё\-\s]/ig, '');
+            
+                    // убираю повторяющиеся дефис или пробел
+                    // есть скобочная группа, у нее №1, если после нее идет такой же символ, как в скобочной группе (это пробел или дефис)
+                    // то он будет заменяться на точно такой же, который был
+                    str = str.replace(/(\-|\s)\1{1,}/g, '$1');
+                    
+                    target.value = str;
+            
+                    target.addEventListener('blur', () => {
+                        target.value = processText(target);
+                    })
+            
+                    
+                });
             });
-        }));
+        
+            
+            // удаляет дефисы в начале и в конце слова, если это инпут имени, то приводит первые буквы к заглавной
+            // вход: target
+            // выход: строка
+            const processText = (target) => {
+                //получила массив из слов
+                // каждое слово все еще может начинаться или заканчиваться дефисом 
+                let arr = target.value.trim().split(' ');
+        
+                arr = arr.map(word => {
+                        if (word.slice(0,1) === '-' || word.slice(-1) === '-') {
+                            // если только первый символ - дефис, то он удаляется
+                            if (word.slice(0,1) === '-' && word.slice(-1) !== '-') {
+                                word = word.replace(/\-/, '');
+            
+                            // если только последний символ дефис - он удаляется
+                            } else if(word.slice(-1) === '-' && word.slice(0,1) !== '-'){
+                                word = word.substring(1, word.length - 1);
+            
+                            // если оба символа - дефисы, они удаляются
+                            } else {
+                                word = word.substring(1, word.length - 1).replace(/\-/, '');
+            
+                            }
+            
+                        } 
+                        if(target.name === 'user_name'){
+                            word = word.toUpperCase().slice(0,1) + word.toLowerCase().substring(1);
+                        }
+            
+                        return word;
+                });
+        
+                arr = arr.join(' ');
+        
+                return arr;
+            }
 
         messageInput.addEventListener('input', (e) => {
             let target = e.target;
@@ -399,14 +432,7 @@ window.addEventListener('DOMContentLoaded', function () {
             target.value = target.value.replace(/[^а-яё\s\-]/ig, '');
 
             target.addEventListener('blur', () => {
-                const regText = /([^а-яё\s\-]+|^\-*|\-*$)/ig;
-                let str = target.value.replace(regText, '');
-
-                str = str.trim().toLowerCase();
-                str = str.replace(/\-+/g, '-');
-                str = str.replace(/\s+/g, ' ');
-
-                target.value = str;
+                target.value = processText(target);
             });
         });
     }
@@ -420,7 +446,7 @@ window.addEventListener('DOMContentLoaded', function () {
             elem.addEventListener('input', (e) => {
                 let target = e.target;
                 //можно только ввод латиницы и спецсимволы
-                target.value = target.value.replace(/[^A-z\@\*\-\_\.\!\~\']+/i,'');  
+                target.value = target.value.replace(/[^a-z\@\*\-\_\.\!\~\']+/gi,'');  
 
                 target.addEventListener('blur', () => {
                     const regEmail = /([^a-z\-\_\.\!\~\*\'@]+|^\-*|\-*$)/ig;
@@ -462,57 +488,5 @@ window.addEventListener('DOMContentLoaded', function () {
     checkPhone();
 
 
-    // проверка на корректность введенных значений при blur
-
-    /* 
-    const checkOnBlur = () => {
-        const inputs = document.querySelectorAll('input');
-
-        // регулярки для каждого типа данных
-        const regCalc = /[^\d]+/g,
-            regText = /([^а-яё\s\-]+|^\-*|\-*$)/ig,
-            regEmail = /([^a-z\-\_\.\!\~\*\'@]+|^\-*|\-*$)/ig,
-            regPhone = /([^\d\)\(\-]+|^\-*|\-*$)/g;
-
-        const capitalizeFirstLetter = (string) => {
-            return string.split(/\s+/).map(word => word.replace(/(^\-|\-$)/g,'')[0].toUpperCase() + word.substring(1)).join(' ');
-        };
-
-        inputs.forEach(item => item.addEventListener('blur', (e) => {
-            let target = e.target;
-
-            // калькулятор
-            if(target.matches('input[type="text"].calc-item')){
-                target.value = target.value.replace(regCalc, '');
-            
-            // имя
-            } else if (target.matches('input[name="user_name"]')){
-                let str = target.value.replace(regText, '');
-                str = str.trim().toLowerCase();
-                str = str.replace(/\-+/g, '-');
-                str = str.replace(/\s+/g, ' ');
-
-                target.value = str ? capitalizeFirstLetter(str) : str;
-
-            // сообщение
-            } else if (target.matches('input[name="user_message"]')){
-                target.value = target.value.replace(regText, '').trim();
-
-            // email
-            } else if (target.matches('input[type="email"]')){
-                target.value = target.value.replace(regEmail, '').replace(/\-{2,}/g, '-');
-
-            // телефон
-            } else if (target.matches('input[type="tel"]')){
-                target.value = target.value.replace(regPhone, '').replace(/\-{2,}/g, '-');
-            }
-            
-        }));
-        
-
-    };
-    checkOnBlur();
-     */
-    
 });
 
