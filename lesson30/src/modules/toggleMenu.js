@@ -34,13 +34,12 @@ const toggleMenu = () => {
                 handlerMenu();
             }
 
-            smoothScroll(target);
+            smoothScroll(event);
         });
 
         firstSectionLink.addEventListener('click', (event) => {
-            let target = event.target;
 
-            smoothScroll(target);
+            smoothScroll(event);
         });
 
 };

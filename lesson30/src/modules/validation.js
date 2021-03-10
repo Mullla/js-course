@@ -146,4 +146,4 @@ const validation = () => {
     checkPhone();
 }
 
-validation();
+export default validation;

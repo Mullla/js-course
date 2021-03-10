@@ -57,6 +57,11 @@ const slider = () => {
             interval = setInterval(autoPlaySlide, time); 
         };
 
+        //останавливает слайдер при наведении на стрелки и точки
+        const stopSlider = () => {
+            clearInterval(interval);
+        };
+
         slider.addEventListener('click', (e) => {
                 e.preventDefault();
 
@@ -103,9 +108,6 @@ const slider = () => {
         });
 
         slider.addEventListener('mouseout', (e) => {
-            // if (e.target.matches('.portfolio-btn') || e.target.matches('.dot')){
-            //     startSlider(1500);
-            // }
             if (e.target.matches('.portfolio-btn, .dot')){
                 startSlider(1500);
             }

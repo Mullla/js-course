@@ -8,6 +8,7 @@ import slider from './modules/slider';
 import changeImgs from './modules/changeImgs';
 import calc from './modules/calc';
 import sendForm from './modules/sendForm';
+import validation from './modules/validation';
 
     // timer
     countTimer('22 march 2021');
@@ -26,6 +27,8 @@ import sendForm from './modules/sendForm';
 
     // change dataset-img
     changeImgs();
+
+    validation();
 
     // калькулятор
     calc();

@@ -51,7 +51,7 @@ const sendForm = () => {
         form.addEventListener('submit', (e) => {
             e.preventDefault();
             form.append(statusMessage);
-            statusMessage.textContent = loadMessage;
+            statusMessage.innerHTML = loadMessage;
 
             // присваивает body результат работы функции createBody для формы
             let body = createBody(form);
