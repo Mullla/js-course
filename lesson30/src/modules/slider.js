@@ -1,41 +1,40 @@
-    // добавляет слайдеру точки переключения
-    const addDots = (container, amount) => {
+const slider = () => {
+    const slider = document.querySelector('.portfolio-content'),
+        slides = slider.querySelectorAll('.portfolio-item');
 
-        let ul = document.createElement('ul');
-        ul.classList.add('portfolio-dots')
-        container.append(ul);
+        // добавляет слайдеру точки переключения
+        const addDots = (container, amount) => {
 
-        for (let i = 0; i < amount; i++){
-            let li = document.createElement('li');
-            li.classList.add('dot');
-            ul.append(li);
-        }
-    };
+            let ul = document.createElement('ul');
+            ul.classList.add('portfolio-dots')
+            container.append(ul);
 
-    //slider
-    const slider = () => {
-        const slider = document.querySelector('.portfolio-content'),
-            slides = slider.querySelectorAll('.portfolio-item');
+            for (let i = 0; i < amount; i++){
+                let li = document.createElement('li');
+                li.classList.add('dot');
+                ul.append(li);
+            }
+        };
 
-            addDots(slider, slides.length);
+        addDots(slider, slides.length);
 
-            const dots = slider.querySelectorAll('.dot'); // получаю точки со страницы
+        const dots = slider.querySelectorAll('.dot'); // получаю точки со страницы
 
-            let currentSlide = 0, // текущий слайд
-                interval; // для остановки и запуска слайдера
+        let currentSlide = 0, // текущий слайд
+            interval; // для остановки и запуска слайдера
 
-            // тк добавление и удаление класса часто происходит, они вынесены в отдельные функции
-            // чтобы они работали не только для самих слайдов. но и для точек
-            const prevSlide = (elem, index, strClass) => {
-                elem[index].classList.remove(strClass);
-            };
+        // тк добавление и удаление класса часто происходит, они вынесены в отдельные функции
+        // чтобы они работали не только для самих слайдов. но и для точек
+        const prevSlide = (elem, index, strClass) => {
+            elem[index].classList.remove(strClass);
+        };
 
-            const nextSlide = (elem, index, strClass) => {
-                elem[index].classList.add(strClass);
-            };
+        const nextSlide = (elem, index, strClass) => {
+            elem[index].classList.add(strClass);
+        };
 
-            // функция автоперелистывания
-            const autoPlaySlide = () => {
+        // функция автоперелистывания
+        const autoPlaySlide = () => {
                 // у текущего слайда убираю активный класс
                 prevSlide(slides, currentSlide, 'portfolio-item-active');
                 prevSlide(dots, currentSlide, 'dot-active');
@@ -51,19 +50,14 @@
                 //добавляю следующему слайду активный класс
                 nextSlide(slides, currentSlide, 'portfolio-item-active');
                 nextSlide(dots, currentSlide, 'dot-active');
-            };
+        };
 
-            // запускает слайдер
-            const startSlider = (time = 3000) => { // если параметры не переданы, то по умолчанию 3 секунды
-                interval = setInterval(autoPlaySlide, time); 
-            };
+        // запускает слайдер
+        const startSlider = (time = 3000) => { // если параметры не переданы, то по умолчанию 3 секунды
+            interval = setInterval(autoPlaySlide, time); 
+        };
 
-            //останавливает слайдер при наведении на стрелки и точки
-            const stopSlider = () => {
-                clearInterval(interval);
-            };
-
-            slider.addEventListener('click', (e) => {
+        slider.addEventListener('click', (e) => {
                 e.preventDefault();
 
                 let target = e.target;
@@ -100,23 +94,25 @@
                 // добавляем активный класс слайду, у которого выполняется условие
                 nextSlide(slides, currentSlide, 'portfolio-item-active');
                 nextSlide(dots, currentSlide, 'dot-active');
-            });
+        });
 
-            slider.addEventListener('mouseover', (e) => {
-                if (e.target.matches('.portfolio-btn') || e.target.matches('.dot')){
-                    stopSlider();
-                }
-            });
+        slider.addEventListener('mouseover', (e) => {
+            if (e.target.matches('.portfolio-btn') || e.target.matches('.dot')){
+                stopSlider();
+            }
+        });
 
-            slider.addEventListener('mouseout', (e) => {
-                // if (e.target.matches('.portfolio-btn') || e.target.matches('.dot')){
-                //     startSlider(1500);
-                // }
-                if (e.target.matches('.portfolio-btn, .dot')){
-                    startSlider(1500);
-                }
-            });
+        slider.addEventListener('mouseout', (e) => {
+            // if (e.target.matches('.portfolio-btn') || e.target.matches('.dot')){
+            //     startSlider(1500);
+            // }
+            if (e.target.matches('.portfolio-btn, .dot')){
+                startSlider(1500);
+            }
+        });
 
-            startSlider(1500);
+        startSlider(1500);
 
-    };
+};
+
+export default slider;

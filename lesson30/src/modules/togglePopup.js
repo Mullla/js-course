@@ -1,4 +1,3 @@
-//popup
 const togglePopup = () => {
     const popup = document.querySelector('.popup'),
         popupBtns = document.querySelectorAll('.popup-btn');
@@ -49,3 +48,5 @@ const togglePopup = () => {
         popupAnimate();
     }
 }
+
+export default togglePopup;

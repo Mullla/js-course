@@ -6,6 +6,25 @@ const calc = (price = 100) => {
         calcCount = calcBlock.querySelector('.calc-count'), // количество помещений
         totalValue = document.getElementById('total'); // итоговая сумма
 
+        // animation pattern
+    const animate = ({timing, draw, duration}) => {
+        let start = performance.now();
+
+        requestAnimationFrame(function animate(time) {
+            let timeFraction = (time - start) / duration;
+            if (timeFraction > 1) timeFraction = 1;
+
+            let progress = timing(timeFraction);
+
+            draw(progress);
+
+            if(timeFraction < 1){
+                requestAnimationFrame(animate);
+            }
+        });
+
+    };
+
     // считает итоговую цену
     const countSum = () => {
         let total = 0,
@@ -32,7 +51,16 @@ const calc = (price = 100) => {
                 total = price * squareValue * typeValue * countValue * dayValue;
             } 
 
-        totalValue.textContent = total;
+            // launch animation
+            animate({
+                duration: 1000,
+                timing(timeFraction){
+                    return timeFraction;
+                },
+                draw(progress){
+                    totalValue.textContent = Math.ceil(total * progress);
+                }
+            });
     };
 
 
@@ -45,3 +73,5 @@ const calc = (price = 100) => {
     });
 
 };
+
+export default calc;

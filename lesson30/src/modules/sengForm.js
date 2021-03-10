@@ -1,6 +1,6 @@
 const sendForm = () => {
     const errorMessage = 'Что-то пошло не так...',
-        loadMessage = 'Загрузка...',
+        loadMessage = `<span class="loader"></span>`,
         successMessage = 'Спасибо! Мы скоро с Вами свяжемся';
 
     // все формы со страницы
@@ -111,3 +111,5 @@ const sendForm = () => {
     }
 
 };
+
+export default sendForm;

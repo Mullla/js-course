@@ -22,3 +22,5 @@ const changeImgs = () => {
     });
     
 }
+
+export default changeImgs;
