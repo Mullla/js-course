@@ -1,12 +1,25 @@
 const toggleMenu = () => {
-    const menuBtn = document.querySelector('.menu'), // кнопка меню
-        menu = document.querySelector('menu'), // тег с блоком меню
-        firstSectionLink = document.querySelector('a>img'); // ссылка перехода к первому слайду
-
+    const menu = document.querySelector('menu'); // тег с блоком меню
+    
         // переключает активный класс у меню
         const handlerMenu = () => {
             menu.classList.toggle('active-menu');
         };
+
+        document.addEventListener('click', (event) => {
+            let target = event.target;
+
+            if (target.closest('div.menu') //если это иконка меню
+                || target.classList.contains('close-btn') // или есть кнопка закрыть
+                || target.closest('li>a') // или это ссылка
+                || ( menu.classList.contains('active-menu') && !target.closest('.active-menu') )) { // или меню открыто и при этом клик не на меню
+
+                handlerMenu();
+            }
+
+            smoothScroll(event);
+        });
+
 
         // smooth scroll
         const smoothScroll = (e) => {
@@ -24,23 +37,6 @@ const toggleMenu = () => {
                 });
             }
         }
-
-        menuBtn.addEventListener('click', handlerMenu);
-
-        menu.addEventListener('click',(event) => {
-            let target = event.target;
-
-            if (target.classList.contains('close-btn') || target.closest('a')){
-                handlerMenu();
-            }
-
-            smoothScroll(event);
-        });
-
-        firstSectionLink.addEventListener('click', (event) => {
-
-            smoothScroll(event);
-        });
 
 };
 

@@ -7,28 +7,31 @@ const sendForm = () => {
     const forms = document.querySelectorAll('form');
 
     const statusMessage = document.createElement('div');
-    statusMessage.style.cssText = 'font-size: 2rem;';
+    statusMessage.style.cssText = 'font-size: 2rem; color: ghostwhite;';
 
     // валидация
     const validate = (input) => {
         const regPhone = /[^\+\d+]/g,
             regName = /[^а-яё\s]+/gi,
             regMessage = /[^а-яё\s\.,:;\-\!\?\d]+/gi;
-    
+        
             input.addEventListener('input', () => {
+
                 if(input.type === 'tel'){
                     input.value = input.value.replace(regPhone, ''); 
-    
+
                 } else if(input.name === 'user_name'){
                     input.value = input.value.replace(regName, '');
-    
+
                 } else if(input.name === 'user_message'){
                     input.value = input.value.replace(regMessage, '');
-                }
+                } 
+
             });
+
     }
 
-    // создание и перебор элементов формы
+    // создание и перебор элементов формы (для их валидации)
     const createFormElements = (form) => {
         // массив с инпутами из формы
         const formElements = [];
@@ -39,19 +42,36 @@ const sendForm = () => {
             }
         }
     
-        formElements.forEach( (elem) => validate(elem));
-    
+        formElements.forEach( elem => {
+            validate(elem);
+            
+            if(elem.type === 'email'){
+                // нахожу кнопку отправки
+                const formBtn = form.querySelector('.form-btn');
+
+                elem.addEventListener('change', () => {
+                    // если имейл не будет пустым, то кнопка разблокируется и форму можно будет отправить
+                    elem.value ? formBtn.disabled = false : formBtn.disabled = true;
+                })
+            }
+            
+        });
+
     };
 
     // для каждой формы отправка данных
     forms.forEach( (form) => {
-        
+        // сразу отключаю кнопки отправки у формы
+        const submitBtn = form.querySelector('.form-btn')
+        submitBtn.disabled = true;
+
         createFormElements(form);
 
         form.addEventListener('submit', (e) => {
             e.preventDefault();
             form.append(statusMessage);
             statusMessage.innerHTML = loadMessage;
+
 
             // присваивает body результат работы функции createBody для формы
             let body = createBody(form);
@@ -64,12 +84,19 @@ const sendForm = () => {
                         throw new Error(`status network ${response.status}`);
                     }
                     statusMessage.textContent = successMessage;
+
+                    // через 3-5 секунд сообщение пропадает
+                    setTimeout(() => statusMessage.remove(), 3000);
                 })
-                .catch( () => {
+                .then(() => {
+                    // после того, как пропадет сообщение, модалка закроется
+                    setTimeout(() => document.querySelector('.popup').style.display = 'none', 1000);
+                    
+                })
+                .catch( (error) => {
                     statusMessage.textContent = errorMessage;
                     console.error(error);
                 });
-
 
 
             // очищает значения формы
