@@ -9,27 +9,65 @@ const sendForm = () => {
     const statusMessage = document.createElement('div');
     statusMessage.style.cssText = 'font-size: 2rem; color: ghostwhite;';
 
+    // коллекция с правильно заполненными полями
+    const checked = new Set();
+
     // валидация
     const validate = (input) => {
         const regPhone = /[^\+\d+]/g,
             regName = /[^а-яё\s]+/gi,
             regMessage = /[^а-яё\s\.,:;\-\!\?\d]+/gi;
         
+            // кнопка из заполняемой формы
+            const formBtn = input.closest('form').querySelector('.form-btn');
+    
             input.addEventListener('input', () => {
 
                 if(input.type === 'tel'){
                     input.value = input.value.replace(regPhone, ''); 
 
+                    if(input.value.length < 7 || input.value.length > 13){
+                        checked.delete(input)
+                    } else {
+                        checked.add(input);
+                    }
+
                 } else if(input.name === 'user_name'){
                     input.value = input.value.replace(regName, '');
 
+                    if(input.value.length < 2){
+                        checked.delete(input)
+                    } else {
+                        checked.add(input);
+                    }
+                    
+
                 } else if(input.name === 'user_message'){
                     input.value = input.value.replace(regMessage, '');
+
                 } 
+
+                if(input.type === 'email'){
+                    if(input.value){
+                        checked.add(input);
+                    } else {
+                        checked.delete(input);
+                    }
+                }
+
+                if(checked.size === 3){
+                    formBtn.disabled = false;
+                } else {
+                    formBtn.disabled = true;
+                }
 
             });
 
+
+            
     }
+
+
 
     // создание и перебор элементов формы (для их валидации)
     const createFormElements = (form) => {
@@ -45,16 +83,7 @@ const sendForm = () => {
         formElements.forEach( elem => {
             validate(elem);
             
-            if(elem.type === 'email'){
-                // нахожу кнопку отправки
-                const formBtn = form.querySelector('.form-btn');
-
-                elem.addEventListener('change', () => {
-                    // если имейл не будет пустым, то кнопка разблокируется и форму можно будет отправить
-                    elem.value ? formBtn.disabled = false : formBtn.disabled = true;
-                })
-            }
-            
+            // нахожу кнопку отправки
         });
 
     };
