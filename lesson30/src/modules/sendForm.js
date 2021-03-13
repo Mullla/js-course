@@ -25,6 +25,7 @@ const sendForm = () => {
 
                 if(input.type === 'tel'){
                     input.value = input.value.replace(regPhone, ''); 
+                    input.required = true;
 
                     if(input.value.length < 7 || input.value.length > 13){
                         checked.delete(input)
@@ -34,6 +35,7 @@ const sendForm = () => {
 
                 } else if(input.name === 'user_name'){
                     input.value = input.value.replace(regName, '');
+                    input.required = true;
 
                     if(input.value.length < 2){
                         checked.delete(input)
@@ -48,6 +50,8 @@ const sendForm = () => {
                 } 
 
                 if(input.type === 'email'){
+                    input.required = true;
+
                     if(input.value){
                         checked.add(input);
                     } else {
@@ -82,8 +86,6 @@ const sendForm = () => {
     
         formElements.forEach( elem => {
             validate(elem);
-            
-            // нахожу кнопку отправки
         });
 
     };
@@ -130,6 +132,10 @@ const sendForm = () => {
 
             // очищает значения формы
             e.target.reset();
+            // очищает коллекцию, чтобы можно было снова отправлять форму
+            checked.clear();
+            // снова отключает кнопки, чтобы не отправлять пустую форму
+            submitBtn.disabled = true;
         });
     });
 
