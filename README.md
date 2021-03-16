@@ -189,6 +189,32 @@ Added comments to try-catch project.
 Get data from json with promises.
 ***
 
+## lesson 29
+- [easy level](https://github.com/Mullla/js-course/tree/lesson29)
+**3D Glo**: Rewrite ajax sending with fetch. 
+- [hard level](https://github.com/Mullla/currency-converter)
+Currency converter. Get data from exchange API with promises.
+***
+
+## lesson 30
+- [easy level](https://github.com/Mullla/js-course/tree/lesson30)
+**3D Glo**: Split project to modules. Added webpack bundle.
+***
+
+## lesson 31
+- [part#1](https://github.com/Mullla/lesson31/tree/master)
+Created dropdown lists. 
+- [part#2](https://github.com/Mullla/lesson31/tree/part2)
+Get data from json. Added preloader, added animation. 
+- [part#3](https://github.com/Mullla/lesson31/tree/part3)
+Work with cookies and localStorage. Write data to cookie and storage, then get data from it.
+***
+
+## lesson 32
+- [easy level](https://github.com/Mullla/js-course/tree/lesson32)
+**3D Glo**: Added carousel slider to project. Used: OOP.
+***
+
 ## Bonus lesson
 - [auth](https://github.com/Mullla/auth-lesson)
  * part#1: Add every user as an object to array, using prompts. Render list of users to the page. Add information to localStorage.
